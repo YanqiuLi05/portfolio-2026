@@ -1,0 +1,15 @@
+{
+  "permissions": {
+    "allow": [
+      "mcp__Claude_Preview__preview_start",
+      "WebFetch(domain:jasminegunarto.com)",
+      "Bash(ffmpeg -i \"/Users/jully/Desktop/Screen Recording 2026-04-10 at 7.52.14 PM.mov\" -vf \"fps=1\" -frames:v 6 /tmp/frame_%02d.jpg -y)",
+      "Bash(qlmanage -t -s 1280 -o /tmp/ \"/Users/jully/Desktop/Screen Recording 2026-04-10 at 7.52.14 PM.mov\")",
+      "Read(//private/tmp/**)",
+      "Bash(ffmpeg -i \"/Users/jully/Desktop/Screen Recording 2026-04-10 at 7.52.14 PM.mov\" -vf \"fps=1\" /tmp/frame_%03d.png)",
+      "Bash(qlmanage -t -s 1200 -o /tmp/frames \"/Users/jully/Desktop/Screen Recording 2026-04-10 at 7.52.14 PM.mov\")",
+      "Bash(qlmanage -t -s 1200 -o /tmp '/Users/jully/Desktop/Screen Recording 2026-04-10 at 7.52.14 PM.mov')",
+      "Bash(ls /tmp/*.png)"
+    ]
+  }
+}
