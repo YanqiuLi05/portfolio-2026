@@ -435,17 +435,77 @@ requestAnimationFrame(() => {
     ppGallery.innerHTML = '';
     ppGallery.scrollTop = 0;
 
-    var labels = ['HERO IMAGE', 'DETAIL', 'PROCESS', 'CLOSEUP'];
+    var gallery = (data.gallery || '').split(',').map(function (src) {
+      return src.trim();
+    }).filter(Boolean);
+    var labels = (data.galleryLabels || '').split(',').map(function (label) {
+      return label.trim();
+    });
 
-    for (var i = 0; i < 4; i++) {
+    if (!gallery.length) {
+      gallery = ['', '', '', ''];
+      labels = ['HERO IMAGE', 'DETAIL', 'PROCESS', 'CLOSEUP'];
+    }
+
+    function escapeAttr(value) {
+      return String(value).replace(/[&<>"']/g, function (char) {
+        return {
+          '&': '&amp;',
+          '<': '&lt;',
+          '>': '&gt;',
+          '"': '&quot;',
+          "'": '&#39;'
+        }[char];
+      });
+    }
+
+    function loadInstagramEmbeds() {
+      if (window.instgrm && window.instgrm.Embeds) {
+        window.instgrm.Embeds.process();
+        return;
+      }
+
+      if (document.querySelector('script[data-instagram-embed]')) return;
+
+      var script = document.createElement('script');
+      script.async = true;
+      script.src = 'https://www.instagram.com/embed.js';
+      script.setAttribute('data-instagram-embed', 'true');
+      document.body.appendChild(script);
+    }
+
+    var needsInstagramEmbed = false;
+
+    for (var i = 0; i < gallery.length; i++) {
       var img = document.createElement('div');
       img.className = 'pp-gallery-img';
       img.style.setProperty('--pp-slide-bg', bg);
-      img.innerHTML =
-        '<span class="pp-gallery-img-num">' + num + '.' + (i + 1) + '</span>' +
-        '<span class="pp-gallery-img-lbl">' + labels[i] + '</span>';
+      if (gallery[i]) {
+        var isVideo = /\.(mov|mp4|webm)$/i.test(gallery[i]);
+        var isInstagram = /^instagram:/i.test(gallery[i]);
+        img.classList.add('has-media');
+        if (isVideo) img.classList.add('has-video');
+        if (isInstagram) img.classList.add('has-instagram');
+        if (isInstagram) needsInstagramEmbed = true;
+
+        var instagramUrl = isInstagram ? gallery[i].replace(/^instagram:/i, '') : '';
+        img.innerHTML =
+          (isInstagram
+            ? '<div class="pp-instagram-embed"><blockquote class="instagram-media" data-instgrm-permalink="' + escapeAttr(instagramUrl) + '" data-instgrm-version="14"><a href="' + escapeAttr(instagramUrl) + '" target="_blank" rel="noopener">View this post on Instagram</a></blockquote></div>'
+            : (isVideo
+              ? '<video src="' + gallery[i] + '" controls playsinline preload="metadata"></video>'
+              : '<img src="' + gallery[i] + '" alt="' + (labels[i] || data.ptitle || 'Project image') + '">')) +
+          '<span class="pp-gallery-img-num">' + num + '.' + (i + 1) + '</span>' +
+          '<span class="pp-gallery-img-lbl">' + (labels[i] || (isInstagram ? 'INSTAGRAM' : (isVideo ? 'VIDEO' : 'IMAGE'))) + '</span>';
+      } else {
+        img.innerHTML =
+          '<span class="pp-gallery-img-num">' + num + '.' + (i + 1) + '</span>' +
+          '<span class="pp-gallery-img-lbl">' + labels[i] + '</span>';
+      }
       ppGallery.appendChild(img);
     }
+
+    if (needsInstagramEmbed) loadInstagramEmbeds();
 
     panel.classList.add('open');
     if (overlay) overlay.classList.add('vis');
