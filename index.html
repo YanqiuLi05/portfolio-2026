@@ -6,7 +6,7 @@
   <title>Jully Li  Artist & Designer</title>
 
   <link href="https://fonts.googleapis.com/css2?family=Bebas+Neue&family=Space+Mono:wght@400;700&display=swap" rel="stylesheet" />
-  <link rel="stylesheet" href="style.css" />
+  <link rel="stylesheet" href="style.css?v=20260607c" />
 </head>
 
 <body>
@@ -35,27 +35,6 @@
     <h1 class="hero-name">Jully Li</h1>
   </section>
 
-  <!-- MARQUEE -->
-  <div class="mq">
-    <div class="mq-t">
-      <span class="mq-i">Branding Design ·</span>
-      <span class="mq-i">Graphic Design ·</span>
-      <span class="mq-i">UI / UX Design ·</span>
-      <span class="mq-i">Illustration ·</span>
-      <span class="mq-i">Physical Computing ·</span>
-      <span class="mq-i">Brooklyn NYC ·</span>
-      <span class="mq-i">Available for Freelance ·</span>
-
-      <span class="mq-i">Branding Design ·</span>
-      <span class="mq-i">Graphic Design ·</span>
-      <span class="mq-i">UI / UX Design ·</span>
-      <span class="mq-i">Illustration ·</span>
-      <span class="mq-i">Physical Computing ·</span>
-      <span class="mq-i">Brooklyn NYC ·</span>
-      <span class="mq-i">Available for Freelance ·</span>
-    </div>
-  </div>
-
   <!-- FEATURED PANEL -->
   <div id="proj-panel">
     <div id="pp-top-bar">
@@ -66,6 +45,50 @@
     <div id="pp-gallery"></div>
   </div>
   <div id="pp-overlay"></div>
+
+  <main id="project-page" aria-hidden="true">
+    <nav class="pd-nav">
+      <div class="pd-nav-left">
+        <button class="pd-nav-btn" data-pd-target="works">Projects</button>
+        <button class="pd-nav-btn" data-pd-target="about">About</button>
+      </div>
+      <button class="pd-logo" id="pd-logo-btn" aria-label="Back to works"></button>
+      <div class="pd-nav-right">
+        <button class="pd-nav-btn" data-pd-target="project-index">Archive</button>
+        <button class="pd-nav-btn" data-pd-target="about">Contact</button>
+      </div>
+    </nav>
+
+    <section class="pd-overview">
+      <div class="pd-title-wrap">
+        <p class="pd-kicker">Project Overview</p>
+        <h2 id="pd-title">Project Title</h2>
+      </div>
+
+      <div class="pd-meta-wrap">
+        <div class="pd-meta-row">
+          <span class="pd-meta-label">Role</span>
+          <p id="pd-role">Visual design<br />Art direction</p>
+        </div>
+        <div class="pd-meta-row">
+          <span class="pd-meta-label">Year</span>
+          <p id="pd-year">2026</p>
+        </div>
+        <div class="pd-meta-row pd-note-row">
+          <span class="pd-meta-label">Note</span>
+          <p id="pd-note">
+            A selected project from Jully Li's portfolio, exploring image, story, and visual systems across media.
+          </p>
+        </div>
+      </div>
+    </section>
+
+    <section class="pd-images" id="pd-images" aria-label="Project images"></section>
+
+    <section class="pd-more">
+      <div id="pd-more-list"></div>
+    </section>
+  </main>
 
   <!-- FEATURED WORK -->
   <div id="works-wrapper">
@@ -220,6 +243,18 @@
             <span class="wk-slide-num">10</span>
             <img src="assets/works/arduino-project/02-overview.jpg" alt="Arduino interactive object project" />
           </div>
+
+          <div class="wk-slide"
+               data-idx="10"
+               data-ptitle="DAIRY COW"
+               data-pcat="INTERACTIVE INSTALLATION"
+               data-pyear="2025"
+               data-gallery="assets/works/dairy-cow/01-main.jpg,assets/works/dairy-cow/02-installation-detail.jpg,assets/works/dairy-cow/03-booklet-detail.jpg,assets/works/dairy-cow/04-exhibition-view.jpg,assets/works/dairy-cow/05-touch-interaction.jpeg,assets/works/dairy-cow/06-installation-view.jpeg,assets/works/dairy-cow/07-storyboard.jpg"
+               data-gallery-labels="Main photo,Installation detail,Booklet detail,Exhibition view,Touch interaction,Installation view,Storyboard"
+               style="--slide-bg:#F6CDBD;--slide-grid:rgba(190,86,38,.08);--slide-num-color:rgba(190,86,38,.2)">
+            <span class="wk-slide-num">11</span>
+            <img src="assets/works/dairy-cow/01-main.jpg" alt="Dairy Cow interactive installation" />
+          </div>
         </div>
       </div>
 
@@ -285,6 +320,12 @@
             <span class="wk-nr-title">ARDUINO PROJECT</span>
             <span class="wk-nr-cat">INTERACTIVE OBJECT — 2026</span>
           </div>
+
+          <div class="wk-name-row" data-idx="10">
+            <span class="wk-nr-idx">11</span>
+            <span class="wk-nr-title">DAIRY COW</span>
+            <span class="wk-nr-cat">INTERACTIVE INSTALLATION — 2025</span>
+          </div>
         </div>
 
         <div id="wk-prog-wrap"><div id="wk-prog-fill"></div></div>
@@ -292,196 +333,64 @@
     </section>
   </div>
 
-  <!-- OTHER WORKS -->
-  <div id="other-works-wrapper">
-    <section id="other-works">
-      <div class="ow-crs" style="left:22%;top:18%">+</div>
-      <div class="ow-crs" style="left:78%;top:82%">+</div>
+  <!-- PROJECT INDEX -->
+  <section id="project-index">
+    <div class="pi-head">
+      <p class="s-idx rv">/ 02 — VISUAL INDEX</p>
+      <h2 class="pi-title rv">WORK<br />ARCHIVE.</h2>
+      <p class="pi-copy rv">
+        A denser view of posters, album systems, illustration studies, printmaking, and interactive work.
+      </p>
+    </div>
 
-      <!-- LEFT -->
-      <div id="ow-left">
-        <span id="ow-section-label" class="rv">/ 02 — OTHER WORKS</span>
-        <div id="ow-section-title" class="rv">OTHER<br />WORK.</div>
-
-        <div id="ow-info-box" class="rv">
-          <div class="owib-head">
-            <span class="owib-title" id="owib-proj-name">PRISM</span>
-            <span id="ow-counter-num">01 / 08</span>
-          </div>
-          <div class="owib-body" id="owib-body">TYPOGRAPHY — 2024<br />→ JULLY LI</div>
-        </div>
-
-        <div id="ow-left-bottom" class="rv">
-          <button id="ow-view-btn">VIEW →</button>
-        </div>
-
-        <div id="ow-scroll-hint">
-          <div class="ow-hint-line"></div>
-          <span class="ow-hint-txt">Scroll</span>
-        </div>
-      </div>
-
-      <!-- CENTER -->
-      <div id="ow-center">
-        <div id="ow-frame"></div>
-
-        <div id="ow-img-strip">
-          <div class="ow-slide ow-active"
-               data-idx="0"
-               data-ow-title="PRISM"
-               data-ow-cat="TYPOGRAPHY"
-               data-ow-year="2024"
-               style="--ow-slide-bg:#D4CFC7">
-            <div class="ow-slide-art">
-              <span class="ow-slide-num">01</span>
-              <img src="" alt="PRISM" />
-            </div>
-            <div class="ow-slide-caption">
-              <span class="ow-cap-title">PRISM</span>
-              <span class="ow-cap-meta">TYPOGRAPHY — 2024</span>
-            </div>
-          </div>
-
-          <div class="ow-slide"
-               data-idx="1"
-               data-ow-title="ORBIT"
-               data-ow-cat="MOTION"
-               data-ow-year="2023"
-               style="--ow-slide-bg:#C8D5E0">
-            <div class="ow-slide-art">
-              <span class="ow-slide-num">02</span>
-              <img src="" alt="ORBIT" />
-            </div>
-            <div class="ow-slide-caption">
-              <span class="ow-cap-title">ORBIT</span>
-              <span class="ow-cap-meta">MOTION — 2023</span>
-            </div>
-          </div>
-
-          <div class="ow-slide"
-               data-idx="2"
-               data-ow-title="MOSS"
-               data-ow-cat="PACKAGING"
-               data-ow-year="2023"
-               style="--ow-slide-bg:#D0DFD0">
-            <div class="ow-slide-art">
-              <span class="ow-slide-num">03</span>
-              <img src="" alt="MOSS" />
-            </div>
-            <div class="ow-slide-caption">
-              <span class="ow-cap-title">MOSS</span>
-              <span class="ow-cap-meta">PACKAGING — 2023</span>
-            </div>
-          </div>
-
-          <div class="ow-slide"
-               data-idx="3"
-               data-ow-title="CYAN"
-               data-ow-cat="EDITORIAL"
-               data-ow-year="2022"
-               style="--ow-slide-bg:#1A1A2E;--ow-slide-grid:rgba(255,255,255,.04);--ow-slide-num-color:rgba(255,255,255,.08)">
-            <div class="ow-slide-art">
-              <span class="ow-slide-num">04</span>
-              <img src="" alt="CYAN" />
-            </div>
-            <div class="ow-slide-caption">
-              <span class="ow-cap-title">CYAN</span>
-              <span class="ow-cap-meta">EDITORIAL — 2022</span>
-            </div>
-          </div>
-
-          <div class="ow-slide"
-               data-idx="4"
-               data-ow-title="RUNE"
-               data-ow-cat="ICON DESIGN"
-               data-ow-year="2024"
-               style="--ow-slide-bg:#DDD5E8">
-            <div class="ow-slide-art">
-              <span class="ow-slide-num">05</span>
-              <img src="" alt="RUNE" />
-            </div>
-            <div class="ow-slide-caption">
-              <span class="ow-cap-title">RUNE</span>
-              <span class="ow-cap-meta">ICON DESIGN — 2024</span>
-            </div>
-          </div>
-
-          <div class="ow-slide"
-               data-idx="5"
-               data-ow-title="DUSK"
-               data-ow-cat="PHOTOGRAPHY"
-               data-ow-year="2022"
-               style="--ow-slide-bg:#0D1218;--ow-slide-grid:rgba(255,255,255,.04);--ow-slide-num-color:rgba(255,255,255,.07)">
-            <div class="ow-slide-art">
-              <span class="ow-slide-num">06</span>
-              <img src="" alt="DUSK" />
-            </div>
-            <div class="ow-slide-caption">
-              <span class="ow-cap-title">DUSK</span>
-              <span class="ow-cap-meta">PHOTOGRAPHY — 2022</span>
-            </div>
-          </div>
-
-          <div class="ow-slide"
-               data-idx="6"
-               data-ow-title="WAVE"
-               data-ow-cat="WEB DESIGN"
-               data-ow-year="2023"
-               style="--ow-slide-bg:#D8E8E4">
-            <div class="ow-slide-art">
-              <span class="ow-slide-num">07</span>
-              <img src="" alt="WAVE" />
-            </div>
-            <div class="ow-slide-caption">
-              <span class="ow-cap-title">WAVE</span>
-              <span class="ow-cap-meta">WEB DESIGN — 2023</span>
-            </div>
-          </div>
-
-          <div class="ow-slide"
-               data-idx="7"
-               data-ow-title="HAZE"
-               data-ow-cat="POSTER"
-               data-ow-year="2024"
-               style="--ow-slide-bg:#E8E0D0">
-            <div class="ow-slide-art">
-              <span class="ow-slide-num">08</span>
-              <img src="" alt="HAZE" />
-            </div>
-            <div class="ow-slide-caption">
-              <span class="ow-cap-title">HAZE</span>
-              <span class="ow-cap-meta">POSTER — 2024</span>
-            </div>
-          </div>
-        </div>
-      </div>
-
-      <!-- RIGHT -->
-      <div id="ow-right">
-        <div id="ow-flow-topbar">
-          <span id="ow-flow-title">PRISM</span>
-          <span id="ow-flow-meta">TYPOGRAPHY — 2024</span>
-          <button id="ow-flow-close">×</button>
-        </div>
-
-        <div id="ow-flow-wrap">
-          <div id="ow-flow-frame"></div>
-          <div id="ow-flow-strip"></div>
-
-          <div id="ow-flow-hint">
-            <div class="ow-flow-hint-line"></div>
-            <span class="ow-flow-hint-txt">Scroll</span>
-          </div>
-        </div>
-
-        <div id="ow-prog-wrap"><div id="ow-prog-fill"></div></div>
-      </div>
-    </section>
-  </div>
+    <div class="pi-grid">
+      <article class="pi-card pi-large rv">
+        <img src="assets/works/dairy-cow/01-main.jpg" alt="Dairy Cow interactive installation" />
+        <div class="pi-meta"><span>Dairy Cow</span><span>Interactive Installation</span></div>
+      </article>
+      <article class="pi-card rv">
+        <img src="assets/works/album-design/01-album-cover-2.jpg" alt="Album cover design" />
+        <div class="pi-meta"><span>Album Cover System</span><span>Visual Identity</span></div>
+      </article>
+      <article class="pi-card rv">
+        <img src="assets/works/fashion-illustrations/02-venice-dress.jpg" alt="Fashion illustration of Venice dress" />
+        <div class="pi-meta"><span>Venice Dress</span><span>Illustration</span></div>
+      </article>
+      <article class="pi-card pi-tall rv">
+        <img src="assets/works/the-last-witness/06-title-screen.png" alt="The Last Witness title screen" />
+        <div class="pi-meta"><span>The Last Witness</span><span>Game / Story</span></div>
+      </article>
+      <article class="pi-card rv">
+        <img src="assets/works/monoprint-mushroom-series/03-mushrooms-3.jpg" alt="Monoprint mushroom artwork" />
+        <div class="pi-meta"><span>Mushroom Series</span><span>Printmaking</span></div>
+      </article>
+      <article class="pi-card rv">
+        <img src="assets/works/arduino-project/03-detail.jpg" alt="Arduino project detail" />
+        <div class="pi-meta"><span>Arduino Object</span><span>Physical Computing</span></div>
+      </article>
+      <article class="pi-card pi-wide rv">
+        <img src="assets/works/yesung-kwon-quartet/02-pole-mockup.jpg" alt="Yesung Kwon Quartet pole poster mockup" />
+        <div class="pi-meta"><span>Jazz Poster Series</span><span>Print / Environment</span></div>
+      </article>
+      <article class="pi-card rv">
+        <img src="assets/works/something-has-to-happen/03-vinyl-set.jpg" alt="Vinyl set for Something Has To Happen" />
+        <div class="pi-meta"><span>Something Has To Happen</span><span>Album Design</span></div>
+      </article>
+      <article class="pi-card rv">
+        <img src="assets/works/inbar-solomon-quartet/02-street-mockup.jpg" alt="Inbar Solomon Quartet street poster mockup" />
+        <div class="pi-meta"><span>Inbar Solomon Quartet</span><span>Poster System</span></div>
+      </article>
+    </div>
+  </section>
 
   <!-- ABOUT -->
   <section id="about">
-    <p class="s-idx rv">/ 03 — ABOUT</p>
+    <div class="about-bg about-bg-a" aria-hidden="true"></div>
+    <div class="about-bg about-bg-b" aria-hidden="true"></div>
+    <div class="about-kicker rv">
+      <p class="s-idx">/ 03 — ABOUT</p>
+      <span>Brooklyn, NYC</span>
+    </div>
     <h2 class="ab-stmt rv">ARTIST &amp;<br />DESIGNER.</h2>
 
     <div class="ab-txt">
@@ -518,6 +427,6 @@
     <span>© 2025</span>
   </footer>
 
-  <script src="main.js"></script>
+  <script src="main.js?v=20260607b"></script>
 </body>
 </html>

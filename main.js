@@ -5,13 +5,11 @@ if (cursorEl) {
   document.addEventListener(
     'mousemove',
     (e) => {
-      const s =
-        cursorEl.classList.contains('cur-grow') ||
-        cursorEl.classList.contains('cur-click')
-          ? 18
-          : 4;
+      const rect = cursorEl.getBoundingClientRect();
+      const sx = rect.width / 2;
+      const sy = rect.height / 2;
 
-      cursorEl.style.transform = `translate(${e.clientX - s}px,${e.clientY - s}px)`;
+      cursorEl.style.transform = `translate(${e.clientX - sx}px,${e.clientY - sy}px)`;
     },
     { passive: true }
   );
@@ -59,29 +57,34 @@ window.addEventListener('load', () => {
   }, 350);
 });
 
-/* HERO BACKGROUND LOOP */
-(function () {
+/* HERO + ABOUT BACKGROUND LOOPS */
+const backgroundLoopSlides = [
+  'assets/hero-loop/01-zfc-2835.jpg',
+  'assets/hero-loop/02-dairy-cow2.jpg',
+  'assets/hero-loop/03-zfc-0616.jpg',
+  'assets/hero-loop/04-zfc-0703.jpg',
+  'assets/hero-loop/05-zfc-0833.jpg',
+  'assets/hero-loop/06-zfc-1841.jpg',
+  'assets/hero-loop/07-zfc-2394.jpg',
+  'assets/hero-loop/08-zfc-2442.jpg',
+  'assets/hero-loop/09-zfc-2882.jpg',
+  'assets/hero-loop/10-zfc-3377.jpg',
+  'assets/hero-loop/11-zfc-8845.jpg',
+  'assets/hero-loop/12-zfc-8876.jpg',
+  'assets/hero-loop/13-zfc-8932.jpg',
+  'assets/hero-loop/14-zfc-9008.jpg',
+  'assets/hero-loop/15-zfc-0910.jpg'
+];
+
+function startBackgroundLoop(selectorA, selectorB, offset) {
   const slides = [
-    'assets/hero-loop/01-zfc-2835.jpg',
-    'assets/hero-loop/02-dairy-cow2.jpg',
-    'assets/hero-loop/03-zfc-0616.jpg',
-    'assets/hero-loop/04-zfc-0703.jpg',
-    'assets/hero-loop/05-zfc-0833.jpg',
-    'assets/hero-loop/06-zfc-1841.jpg',
-    'assets/hero-loop/07-zfc-2394.jpg',
-    'assets/hero-loop/08-zfc-2442.jpg',
-    'assets/hero-loop/09-zfc-2882.jpg',
-    'assets/hero-loop/10-zfc-3377.jpg',
-    'assets/hero-loop/11-zfc-8845.jpg',
-    'assets/hero-loop/12-zfc-8876.jpg',
-    'assets/hero-loop/13-zfc-8932.jpg',
-    'assets/hero-loop/14-zfc-9008.jpg',
-    'assets/hero-loop/15-zfc-0910.jpg'
+    ...backgroundLoopSlides.slice(offset || 0),
+    ...backgroundLoopSlides.slice(0, offset || 0)
   ];
 
   const layers = [
-    document.querySelector('.hero-bg-a'),
-    document.querySelector('.hero-bg-b')
+    document.querySelector(selectorA),
+    document.querySelector(selectorB)
   ];
 
   if (!layers[0] || !layers[1]) return;
@@ -114,7 +117,10 @@ window.addEventListener('load', () => {
     layers[1 - active].classList.remove('is-active');
     preload(slides[(idx + 1) % slides.length]);
   }, 4300);
-})();
+}
+
+startBackgroundLoop('.hero-bg-a', '.hero-bg-b', 0);
+startBackgroundLoop('.about-bg-a', '.about-bg-b', 5);
 
 /* WATERMARK */
 function removeWatermark() {
@@ -253,6 +259,14 @@ requestAnimationFrame(() => {
   var ppGallery = document.getElementById('pp-gallery');
   var overlay = document.getElementById('pp-overlay');
   var closeBtn = document.getElementById('pp-close-btn');
+  var projectPage = document.getElementById('project-page');
+  var pdTitle = document.getElementById('pd-title');
+  var pdRole = document.getElementById('pd-role');
+  var pdYear = document.getElementById('pd-year');
+  var pdNote = document.getElementById('pd-note');
+  var pdImages = document.getElementById('pd-images');
+  var pdMoreList = document.getElementById('pd-more-list');
+  var pdLogoBtn = document.getElementById('pd-logo-btn');
 
   if (!wkCenter || !imgStrip || !slides.length) return;
 
@@ -334,6 +348,11 @@ requestAnimationFrame(() => {
     var s = slides[idx] ? slides[idx].dataset : {};
     if (wibName) wibName.textContent = s.ptitle || '';
     if (wibBody) wibBody.innerHTML = (s.pcat || '') + ' — ' + (s.pyear || '') + '<br>→ JULLY LI';
+
+    var bgImg = slides[idx] ? slides[idx].querySelector('img') : null;
+    if (bgImg && bgImg.getAttribute('src')) {
+      document.documentElement.style.setProperty('--wk-active-bg', 'url("' + bgImg.getAttribute('src') + '")');
+    }
   }
 
   function goTo(idx, animate) {
@@ -422,18 +441,12 @@ requestAnimationFrame(() => {
   }
 
   function openPanel(slide) {
-    if (!slide || !panel || !ppGallery) return;
+    if (!slide) return;
 
     var data = slide.dataset;
     var idx = parseInt(data.idx, 10);
     var num = pad(idx + 1);
     var bg = slide.style.getPropertyValue('--slide-bg') || '#f0ede8';
-
-    if (ppBarTitle) ppBarTitle.textContent = data.ptitle || '';
-    if (ppBarMeta) ppBarMeta.textContent = (data.pcat || '') + ' — ' + (data.pyear || '');
-
-    ppGallery.innerHTML = '';
-    ppGallery.scrollTop = 0;
 
     var gallery = (data.gallery || '').split(',').map(function (src) {
       return src.trim();
@@ -443,8 +456,10 @@ requestAnimationFrame(() => {
     });
 
     if (!gallery.length) {
-      gallery = ['', '', '', ''];
-      labels = ['HERO IMAGE', 'DETAIL', 'PROCESS', 'CLOSEUP'];
+      var coverImgFallback = slide.querySelector('img');
+      var coverSrcFallback = coverImgFallback ? coverImgFallback.getAttribute('src') : '';
+      gallery = coverSrcFallback ? [coverSrcFallback] : [];
+      labels = ['Cover'];
     }
 
     function escapeAttr(value) {
@@ -474,55 +489,117 @@ requestAnimationFrame(() => {
       document.body.appendChild(script);
     }
 
+    function noteForProject(d) {
+      var title = d.ptitle || 'This project';
+      var cat = (d.pcat || 'visual work').toLowerCase();
+      if (/installation|interactive|object|computing/.test(cat)) {
+        return title + ' is an interactive project built through tactile material, spatial storytelling, and audience participation. The work uses physical detail and atmosphere to make the viewer slow down and enter the story through the body.';
+      }
+      if (/album/.test(cat)) {
+        return title + ' is an album design project focused on building a clear visual world around sound. The system balances cover imagery, printed objects, and supporting mockups into a cohesive identity.';
+      }
+      if (/poster/.test(cat)) {
+        return title + ' is a poster design project shaped around rhythm, hierarchy, and public-facing impact. The work translates performance and mood into a strong graphic system.';
+      }
+      if (/game/.test(cat)) {
+        return title + ' is a narrative game project combining interface, object interaction, and environmental storytelling. The experience uses sequence and choice to unfold a memory-driven world.';
+      }
+      if (/illustration|printmaking/.test(cat)) {
+        return title + ' explores image-making through gesture, material texture, and composition. The project focuses on visual character and a tactile sense of process.';
+      }
+      return title + ' is a selected project from Jully Li’s portfolio, exploring image, story, and visual systems across media.';
+    }
+
+    if (!projectPage || !pdImages) return;
+
+    var coverImg = slide.querySelector('img');
+    if (coverImg && coverImg.getAttribute('src')) {
+      projectPage.style.setProperty('--pd-active-bg', 'url("' + coverImg.getAttribute('src') + '")');
+    }
+
+    if (pdTitle) pdTitle.textContent = data.ptitle || '';
+    if (pdRole) pdRole.innerHTML = (data.pcat || 'Visual Design') + '<br>Art Direction';
+    if (pdYear) pdYear.textContent = data.pyear || '';
+    if (pdNote) pdNote.textContent = noteForProject(data);
+
+    pdImages.innerHTML = '';
+    if (pdMoreList) pdMoreList.innerHTML = '';
+
     var needsInstagramEmbed = false;
 
     for (var i = 0; i < gallery.length; i++) {
-      var img = document.createElement('div');
-      img.className = 'pp-gallery-img';
-      img.style.setProperty('--pp-slide-bg', bg);
+      var item = document.createElement('article');
+      item.className = 'pd-image-item';
       if (gallery[i]) {
         var isVideo = /\.(mov|mp4|webm)$/i.test(gallery[i]);
         var isInstagram = /^instagram:/i.test(gallery[i]);
-        img.classList.add('has-media');
-        if (isVideo) img.classList.add('has-video');
-        if (isInstagram) img.classList.add('has-instagram');
         if (isInstagram) needsInstagramEmbed = true;
 
         var instagramUrl = isInstagram ? gallery[i].replace(/^instagram:/i, '') : '';
-        img.innerHTML =
+        item.innerHTML =
           (isInstagram
-            ? '<div class="pp-instagram-embed"><blockquote class="instagram-media" data-instgrm-permalink="' + escapeAttr(instagramUrl) + '" data-instgrm-version="14"><a href="' + escapeAttr(instagramUrl) + '" target="_blank" rel="noopener">View this post on Instagram</a></blockquote></div>'
+            ? '<a class="pd-instagram-link" href="' + escapeAttr(instagramUrl) + '" target="_blank" rel="noopener">View Instagram reel ↗</a>'
             : (isVideo
               ? '<video src="' + gallery[i] + '" controls playsinline preload="metadata"></video>'
-              : '<img src="' + gallery[i] + '" alt="' + (labels[i] || data.ptitle || 'Project image') + '">')) +
-          '<span class="pp-gallery-img-num">' + num + '.' + (i + 1) + '</span>' +
-          '<span class="pp-gallery-img-lbl">' + (labels[i] || (isInstagram ? 'INSTAGRAM' : (isVideo ? 'VIDEO' : 'IMAGE'))) + '</span>';
+              : '<img src="' + gallery[i] + '" alt="' + escapeAttr(labels[i] || data.ptitle || 'Project image') + '">')) +
+          '<div class="pd-image-caption"><span>' + num + '.' + (i + 1) + '</span><span>' + escapeAttr(labels[i] || (isInstagram ? 'Instagram' : (isVideo ? 'Video' : 'Image'))) + '</span></div>';
       } else {
-        img.innerHTML =
-          '<span class="pp-gallery-img-num">' + num + '.' + (i + 1) + '</span>' +
-          '<span class="pp-gallery-img-lbl">' + labels[i] + '</span>';
+        continue;
       }
-      ppGallery.appendChild(img);
+      pdImages.appendChild(item);
     }
 
     if (needsInstagramEmbed) loadInstagramEmbeds();
 
-    panel.classList.add('open');
-    if (overlay) overlay.classList.add('vis');
-    document.body.style.overflow = 'hidden';
+    if (pdMoreList) {
+      var moreCount = Math.min(4, Math.max(0, N - 1));
+      for (var moreStep = 1; moreStep <= moreCount; moreStep++) {
+        var otherIdx = (idx + moreStep) % N;
+        var other = slides[otherIdx];
+        var otherData = other.dataset;
+        var otherImg = other.querySelector('img');
+        var otherSrc = otherImg ? otherImg.getAttribute('src') : '';
+        var btn = document.createElement('button');
+        btn.className = 'pd-more-item';
+        btn.innerHTML =
+          '<span class="pd-more-num">' + pad(otherIdx + 1) + '</span>' +
+          (otherSrc ? '<img src="' + escapeAttr(otherSrc) + '" alt="' + escapeAttr(otherData.ptitle || 'Project') + '">' : '') +
+          '<span class="pd-more-meta"><strong>' + escapeAttr(otherData.ptitle || '') + '</strong>' +
+          '<em>' + escapeAttr((otherData.pcat || '') + ' — ' + (otherData.pyear || '')) + '</em></span>';
+        btn.addEventListener('click', function () {
+          curIdx = otherIdx;
+          lastIdx = otherIdx;
+          goTo(otherIdx, false);
+          openPanel(other);
+        });
+        pdMoreList.appendChild(btn);
+      }
+    }
 
-    var imgs = ppGallery.querySelectorAll('.pp-gallery-img');
-    imgs.forEach(function (el, j) {
-      setTimeout(function () {
-        el.classList.add('pp-img-in');
-      }, 120 + j * 90);
-    });
+    projectPage.classList.add('open');
+    projectPage.setAttribute('aria-hidden', 'false');
+    projectPage.scrollTop = 0;
+    document.body.style.overflow = 'hidden';
   }
 
   function closePanel() {
     if (panel) panel.classList.remove('open');
     if (overlay) overlay.classList.remove('vis');
+    if (projectPage) {
+      projectPage.classList.remove('open');
+      projectPage.setAttribute('aria-hidden', 'true');
+    }
     document.body.style.overflow = '';
+  }
+
+  function closeDetailTo(targetId) {
+    closePanel();
+    var target = document.getElementById(targetId);
+    if (!target) return;
+
+    setTimeout(function () {
+      target.scrollIntoView({ behavior: 'smooth', block: 'start' });
+    }, 80);
   }
 
   function init() {
@@ -541,8 +618,23 @@ requestAnimationFrame(() => {
   }, { passive: true });
 
   wkCenter.addEventListener('wheel', onWheel, { passive: false });
-  wkCenter.addEventListener('click', function () {
-    openPanel(slides[curIdx]);
+
+  slides.forEach(function (slide, idx) {
+    slide.addEventListener('click', function (e) {
+      e.stopPropagation();
+
+      if (idx !== curIdx) {
+        if (isMobile) {
+          curIdx = idx;
+          lastIdx = idx;
+          updateUI(idx);
+        } else {
+          goTo(idx, true);
+        }
+      }
+
+      openPanel(slide);
+    });
   });
 
   imgStrip.addEventListener('mouseenter', function () {
@@ -582,10 +674,20 @@ requestAnimationFrame(() => {
   }
 
   if (closeBtn) closeBtn.addEventListener('click', closePanel);
+  document.querySelectorAll('[data-pd-target]').forEach(function (btn) {
+    btn.addEventListener('click', function () {
+      closeDetailTo(btn.getAttribute('data-pd-target'));
+    });
+  });
+  if (pdLogoBtn) {
+    pdLogoBtn.addEventListener('click', function () {
+      closeDetailTo('works');
+    });
+  }
   if (overlay) overlay.addEventListener('click', closePanel);
 
   document.addEventListener('keydown', function (e) {
-    if (panel && panel.classList.contains('open') && e.key === 'Escape') {
+    if (((panel && panel.classList.contains('open')) || (projectPage && projectPage.classList.contains('open'))) && e.key === 'Escape') {
       closePanel();
       return;
     }
@@ -601,6 +703,32 @@ requestAnimationFrame(() => {
       e.preventDefault();
       step(-1, -140);
     }
+  });
+})();
+
+/* IMAGE CARD MICRO-INTERACTIONS */
+(function () {
+  document.addEventListener('pointermove', function (e) {
+    var card = e.target.closest && e.target.closest('.pi-card, .pd-more-item');
+    if (!card) return;
+
+    var rect = card.getBoundingClientRect();
+    var px = (e.clientX - rect.left) / rect.width - 0.5;
+    var py = (e.clientY - rect.top) / rect.height - 0.5;
+    card.style.setProperty('--tilt-x', (py * -5).toFixed(2) + 'deg');
+    card.style.setProperty('--tilt-y', (px * 5).toFixed(2) + 'deg');
+    card.style.setProperty('--glow-x', ((px + 0.5) * 100).toFixed(1) + '%');
+    card.style.setProperty('--glow-y', ((py + 0.5) * 100).toFixed(1) + '%');
+  }, { passive: true });
+
+  document.addEventListener('pointerout', function (e) {
+    var card = e.target.closest && e.target.closest('.pi-card, .pd-more-item');
+    if (card && e.relatedTarget && card.contains(e.relatedTarget)) return;
+    if (!card) return;
+    card.style.setProperty('--tilt-x', '0deg');
+    card.style.setProperty('--tilt-y', '0deg');
+    card.style.setProperty('--glow-x', '50%');
+    card.style.setProperty('--glow-y', '50%');
   });
 })();
 
