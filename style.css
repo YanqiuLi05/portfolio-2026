@@ -729,6 +729,11 @@ footer span{font-size:.52rem;letter-spacing:.1em;text-transform:uppercase;color:
   object-fit:contain;
   background:rgba(0,0,0,.42)
 }
+.pd-instagram-embed{
+  width:min(540px,100%)!important;
+  margin:0 auto!important;
+  background:#fff!important
+}
 .pd-instagram-link,
 .pd-empty-image{
   min-height:340px;
@@ -3074,4 +3079,27 @@ footer span{
     flex-basis:100%;
     grid-column:auto
   }
+}
+
+/* 2026-06-08 archive move + clear image washes. */
+#works{
+  background:#fff
+}
+#works::before{
+  filter:blur(28px) saturate(1.05);
+  opacity:1
+}
+#works::after{
+  display:none
+}
+
+#about{
+  background:#050505
+}
+.about-bg{
+  filter:none
+}
+#about::before,
+#about::after{
+  display:none
 }

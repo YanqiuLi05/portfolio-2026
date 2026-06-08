@@ -501,8 +501,14 @@ requestAnimationFrame(() => {
       if (/poster/.test(cat)) {
         return title + ' is a poster design project shaped around rhythm, hierarchy, and public-facing impact. The work translates performance and mood into a strong graphic system.';
       }
+      if (/photo/.test(cat)) {
+        return title + ' captures live music through atmosphere, low light, motion, and performance detail. The series focuses on the intimacy of jazz spaces and the visual rhythm of musicians at work.';
+      }
       if (/game/.test(cat)) {
         return title + ' is a narrative game project combining interface, object interaction, and environmental storytelling. The experience uses sequence and choice to unfold a memory-driven world.';
+      }
+      if (/film|motion|animation/.test(cat)) {
+        return title + ' is a stop-motion film project built through handmade sets, puppets, props, and frame-by-frame storytelling. The work brings a small Christmas Eve world to life through material detail, lighting, and sequence.';
       }
       if (/illustration|printmaking/.test(cat)) {
         return title + ' explores image-making through gesture, material texture, and composition. The project focuses on visual character and a tactile sense of process.';
@@ -538,7 +544,9 @@ requestAnimationFrame(() => {
         var instagramUrl = isInstagram ? gallery[i].replace(/^instagram:/i, '') : '';
         item.innerHTML =
           (isInstagram
-            ? '<a class="pd-instagram-link" href="' + escapeAttr(instagramUrl) + '" target="_blank" rel="noopener">View Instagram reel ↗</a>'
+            ? '<blockquote class="instagram-media pd-instagram-embed" data-instgrm-permalink="' + escapeAttr(instagramUrl) + '" data-instgrm-version="14">' +
+              '<a class="pd-instagram-link" href="' + escapeAttr(instagramUrl) + '" target="_blank" rel="noopener">View Instagram reel ↗</a>' +
+              '</blockquote>'
             : (isVideo
               ? '<video src="' + gallery[i] + '" controls playsinline preload="metadata"></video>'
               : '<img src="' + gallery[i] + '" alt="' + escapeAttr(labels[i] || data.ptitle || 'Project image') + '">')) +
@@ -672,6 +680,20 @@ requestAnimationFrame(() => {
       openPanel(slides[curIdx]);
     });
   }
+
+  document.addEventListener('click', function (e) {
+    var archiveCard = e.target.closest && e.target.closest('.pi-card[data-gallery]');
+    if (!archiveCard) return;
+    openPanel(archiveCard);
+  });
+
+  document.addEventListener('keydown', function (e) {
+    if (e.key !== 'Enter' && e.key !== ' ') return;
+    var archiveCard = e.target.closest && e.target.closest('.pi-card[data-gallery]');
+    if (!archiveCard) return;
+    e.preventDefault();
+    openPanel(archiveCard);
+  });
 
   if (closeBtn) closeBtn.addEventListener('click', closePanel);
   document.querySelectorAll('[data-pd-target]').forEach(function (btn) {
