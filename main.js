@@ -15,6 +15,17 @@ if (cursorEl) {
   );
 }
 
+const heroLogoLink = document.querySelector('.hero-logo');
+if (heroLogoLink && cursorEl) {
+  heroLogoLink.addEventListener('mouseenter', () => {
+    cursorEl.classList.add('cur-click-me');
+  });
+
+  heroLogoLink.addEventListener('mouseleave', () => {
+    cursorEl.classList.remove('cur-click-me');
+  });
+}
+
 /* TIME */
 function tick() {
   const lt = document.getElementById('lt');
@@ -88,10 +99,10 @@ function startBackgroundLoop(selectorA, selectorB, offset) {
   ];
 
   if (!layers[0] || !layers[1]) return;
+  if (!slides.length) return;
 
   let idx = 0;
   let active = 0;
-  const reduceMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
 
   function setLayer(layer, src) {
     layer.style.backgroundImage = `url('${src}')`;
@@ -104,9 +115,9 @@ function startBackgroundLoop(selectorA, selectorB, offset) {
 
   setLayer(layers[0], slides[0]);
   layers[0].classList.add('is-active');
-  preload(slides[1]);
+  if (slides.length > 1) preload(slides[1]);
 
-  if (reduceMotion) return;
+  if (slides.length < 2) return;
 
   setInterval(() => {
     idx = (idx + 1) % slides.length;
@@ -501,6 +512,9 @@ requestAnimationFrame(() => {
       if (/poster/.test(cat)) {
         return title + ' is a poster design project shaped around rhythm, hierarchy, and public-facing impact. The work translates performance and mood into a strong graphic system.';
       }
+      if (/photo/.test(cat) && /10&BEANS|CERAMIC|HOME/.test(title)) {
+        return title + ' is a photography project for handmade ceramic work, focusing on soft light, tactile surfaces, quiet domestic moments, and the handmade irregularities that give each object its character.';
+      }
       if (/photo/.test(cat)) {
         return title + ' captures live music through atmosphere, low light, motion, and performance detail. The series focuses on the intimacy of jazz spaces and the visual rhythm of musicians at work.';
       }
@@ -523,7 +537,10 @@ requestAnimationFrame(() => {
       projectPage.style.setProperty('--pd-active-bg', 'url("' + coverImg.getAttribute('src') + '")');
     }
 
-    if (pdTitle) pdTitle.textContent = data.ptitle || '';
+    if (pdTitle) {
+      pdTitle.textContent = data.ptitle || '';
+      pdTitle.classList.toggle('pd-title-no-break', (data.ptitle || '').trim() === '10&BEANS HOME');
+    }
     if (pdRole) pdRole.innerHTML = (data.pcat || 'Visual Design') + '<br>Art Direction';
     if (pdYear) pdYear.textContent = data.pyear || '';
     if (pdNote) pdNote.textContent = noteForProject(data);
@@ -574,12 +591,14 @@ requestAnimationFrame(() => {
           (otherSrc ? '<img src="' + escapeAttr(otherSrc) + '" alt="' + escapeAttr(otherData.ptitle || 'Project') + '">' : '') +
           '<span class="pd-more-meta"><strong>' + escapeAttr(otherData.ptitle || '') + '</strong>' +
           '<em>' + escapeAttr((otherData.pcat || '') + ' — ' + (otherData.pyear || '')) + '</em></span>';
-        btn.addEventListener('click', function () {
-          curIdx = otherIdx;
-          lastIdx = otherIdx;
-          goTo(otherIdx, false);
-          openPanel(other);
-        });
+        btn.addEventListener('click', (function (targetIdx, targetSlide) {
+          return function () {
+            curIdx = targetIdx;
+            lastIdx = targetIdx;
+            goTo(targetIdx, false);
+            openPanel(targetSlide);
+          };
+        })(otherIdx, other));
         pdMoreList.appendChild(btn);
       }
     }
