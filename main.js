@@ -122,7 +122,6 @@ function startBackgroundLoop(selectorA, selectorB, offset) {
 
   setLayer(layers[0], slides[0]);
   layers[0].classList.add('is-active');
-  if (window.matchMedia('(max-width:820px)').matches) return;
   if (slides.length > 1) preload(slides[1]);
 
   if (slides.length < 2) return;
