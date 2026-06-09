@@ -15,17 +15,6 @@ if (cursorEl) {
   );
 }
 
-const heroLogoLink = document.querySelector('.hero-logo');
-if (heroLogoLink && cursorEl) {
-  heroLogoLink.addEventListener('mouseenter', () => {
-    cursorEl.classList.add('cur-click-me');
-  });
-
-  heroLogoLink.addEventListener('mouseleave', () => {
-    cursorEl.classList.remove('cur-click-me');
-  });
-}
-
 /* TIME */
 function tick() {
   const lt = document.getElementById('lt');
@@ -99,10 +88,10 @@ function startBackgroundLoop(selectorA, selectorB, offset) {
   ];
 
   if (!layers[0] || !layers[1]) return;
-  if (!slides.length) return;
 
   let idx = 0;
   let active = 0;
+  const reduceMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
 
   function setLayer(layer, src) {
     layer.style.backgroundImage = `url('${src}')`;
@@ -115,9 +104,9 @@ function startBackgroundLoop(selectorA, selectorB, offset) {
 
   setLayer(layers[0], slides[0]);
   layers[0].classList.add('is-active');
-  if (slides.length > 1) preload(slides[1]);
+  preload(slides[1]);
 
-  if (slides.length < 2) return;
+  if (reduceMotion) return;
 
   setInterval(() => {
     idx = (idx + 1) % slides.length;
@@ -503,15 +492,6 @@ requestAnimationFrame(() => {
     function noteForProject(d) {
       var title = d.ptitle || 'This project';
       var cat = (d.pcat || 'visual work').toLowerCase();
-      if (title === 'MIZE') {
-        return "Album cover design created for jazz musician Gal Hecht. Inspired by the album title MIZE (\"Who is it?\" in Hebrew), the artwork explores themes of identity and mystery. Painted in watercolor, the cover features a blurred figure playing piano beneath a waterfall, creating a dreamlike atmosphere that reflects the album's emotional and improvisational nature.";
-      }
-      if (title === 'FASHION ILLUSTRATIONS') {
-        return 'A collection of fashion illustrations exploring garment design, movement, and form. Created using charcoal, markers, and India ink, these drawings focus on expressive linework, texture, and silhouette while capturing the character and presence of each model and design.';
-      }
-      if (title === 'DOGGIE PLAYGROUND') {
-        return 'An interactive Arduino-based music box inspired by playful childhood memories and dogs. The project combines electronics, sculpture, and storytelling, with all physical components hand-built from paper clay and finished with hand-painted details. Users interact with the miniature environment to trigger sound and movement and explore the playful world of the installation.';
-      }
       if (/installation|interactive|object|computing/.test(cat)) {
         return title + ' is an interactive project built through tactile material, spatial storytelling, and audience participation. The work uses physical detail and atmosphere to make the viewer slow down and enter the story through the body.';
       }
@@ -522,7 +502,7 @@ requestAnimationFrame(() => {
         return title + ' is a poster design project shaped around rhythm, hierarchy, and public-facing impact. The work translates performance and mood into a strong graphic system.';
       }
       if (/photo/.test(cat) && /10&BEANS|CERAMIC|HOME/.test(title)) {
-        return title + ' is a photography project for handmade ceramic work, focusing on soft light, tactile surfaces, quiet domestic moments, and the handmade irregularities that give each object its character.';
+        return title + ' is a photography project for handmade ceramic work of 10&Beans Summer series, focusing on soft light, tactile surfaces, quiet domestic moments, and the handmade irregularities that give each object its character.';
       }
       if (/photo/.test(cat)) {
         return title + ' captures live music through atmosphere, low light, motion, and performance detail. The series focuses on the intimacy of jazz spaces and the visual rhythm of musicians at work.';
@@ -536,7 +516,7 @@ requestAnimationFrame(() => {
       if (/illustration|printmaking/.test(cat)) {
         return title + ' explores image-making through gesture, material texture, and composition. The project focuses on visual character and a tactile sense of process.';
       }
-      return title + ' is a selected project from Jully Li’s portfolio, exploring image, story, and visual systems across media.';
+      return title + ' is a selected project from Jully Li’s portfolio.';
     }
 
     if (!projectPage || !pdImages) return;
@@ -546,11 +526,7 @@ requestAnimationFrame(() => {
       projectPage.style.setProperty('--pd-active-bg', 'url("' + coverImg.getAttribute('src') + '")');
     }
 
-    if (pdTitle) {
-      pdTitle.textContent = data.ptitle || '';
-      pdTitle.classList.toggle('pd-title-no-break', (data.ptitle || '').trim() === '10&BEANS HOME');
-      pdTitle.classList.toggle('pd-title-compact', (data.ptitle || '').trim() === 'FASHION ILLUSTRATIONS');
-    }
+    if (pdTitle) pdTitle.textContent = data.ptitle || '';
     if (pdRole) pdRole.innerHTML = (data.pcat || 'Visual Design') + '<br>Art Direction';
     if (pdYear) pdYear.textContent = data.pyear || '';
     if (pdNote) pdNote.textContent = noteForProject(data);
@@ -571,7 +547,7 @@ requestAnimationFrame(() => {
         var instagramUrl = isInstagram ? gallery[i].replace(/^instagram:/i, '') : '';
         item.innerHTML =
           (isInstagram
-            ? '<blockquote class="instagram-media pd-instagram-embed" data-instgrm-captioned data-instgrm-permalink="' + escapeAttr(instagramUrl) + '" data-instgrm-version="14">' +
+            ? '<blockquote class="instagram-media pd-instagram-embed" data-instgrm-permalink="' + escapeAttr(instagramUrl) + '" data-instgrm-version="14">' +
               '<a class="pd-instagram-link" href="' + escapeAttr(instagramUrl) + '" target="_blank" rel="noopener">View Instagram reel ↗</a>' +
               '</blockquote>'
             : (isVideo
