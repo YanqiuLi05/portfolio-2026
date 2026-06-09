@@ -503,6 +503,15 @@ requestAnimationFrame(() => {
     function noteForProject(d) {
       var title = d.ptitle || 'This project';
       var cat = (d.pcat || 'visual work').toLowerCase();
+      if (title === 'MIZE') {
+        return "Album cover design created for jazz musician Gal Hecht. Inspired by the album title MIZE (\"Who is it?\" in Hebrew), the artwork explores themes of identity and mystery. Painted in watercolor, the cover features a blurred figure playing piano beneath a waterfall, creating a dreamlike atmosphere that reflects the album's emotional and improvisational nature.";
+      }
+      if (title === 'FASHION ILLUSTRATIONS') {
+        return 'A collection of fashion illustrations exploring garment design, movement, and form. Created using charcoal, markers, and India ink, these drawings focus on expressive linework, texture, and silhouette while capturing the character and presence of each model and design.';
+      }
+      if (title === 'DOGGIE PLAYGROUND') {
+        return 'An interactive Arduino-based music box inspired by playful childhood memories and dogs. The project combines electronics, sculpture, and storytelling, with all physical components hand-built from paper clay and finished with hand-painted details. Users interact with the miniature environment to trigger sound and movement and explore the playful world of the installation.';
+      }
       if (/installation|interactive|object|computing/.test(cat)) {
         return title + ' is an interactive project built through tactile material, spatial storytelling, and audience participation. The work uses physical detail and atmosphere to make the viewer slow down and enter the story through the body.';
       }
@@ -540,6 +549,7 @@ requestAnimationFrame(() => {
     if (pdTitle) {
       pdTitle.textContent = data.ptitle || '';
       pdTitle.classList.toggle('pd-title-no-break', (data.ptitle || '').trim() === '10&BEANS HOME');
+      pdTitle.classList.toggle('pd-title-compact', (data.ptitle || '').trim() === 'FASHION ILLUSTRATIONS');
     }
     if (pdRole) pdRole.innerHTML = (data.pcat || 'Visual Design') + '<br>Art Direction';
     if (pdYear) pdYear.textContent = data.pyear || '';
@@ -561,7 +571,7 @@ requestAnimationFrame(() => {
         var instagramUrl = isInstagram ? gallery[i].replace(/^instagram:/i, '') : '';
         item.innerHTML =
           (isInstagram
-            ? '<blockquote class="instagram-media pd-instagram-embed" data-instgrm-permalink="' + escapeAttr(instagramUrl) + '" data-instgrm-version="14">' +
+            ? '<blockquote class="instagram-media pd-instagram-embed" data-instgrm-captioned data-instgrm-permalink="' + escapeAttr(instagramUrl) + '" data-instgrm-version="14">' +
               '<a class="pd-instagram-link" href="' + escapeAttr(instagramUrl) + '" target="_blank" rel="noopener">View Instagram reel ↗</a>' +
               '</blockquote>'
             : (isVideo
