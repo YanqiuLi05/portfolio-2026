@@ -3359,19 +3359,25 @@ footer span{
     min-height:0;
     display:flex;
     flex-direction:column;
-    overflow:visible;
+    overflow:hidden;
     background:#fff
   }
   #works::before{
+    display:block;
     inset:0;
-    filter:blur(22px) saturate(.96);
-    opacity:.34
+    background-image:var(--wk-active-bg);
+    background-position:center;
+    background-size:cover;
+    filter:blur(24px) saturate(1.05);
+    opacity:.58;
+    transform:scale(1.04)
   }
   #wk-left{
     order:1;
     padding:2.2rem 1rem 1.1rem;
     border:0;
-    background:rgba(255,255,255,.72)
+    background:rgba(255,255,255,.56);
+    backdrop-filter:blur(8px)
   }
   #wk-section-label{
     font-size:.52rem
@@ -3404,10 +3410,11 @@ footer span{
     order:2;
     height:auto;
     min-height:0;
-    overflow:visible;
+    overflow:hidden;
     border:0;
     padding:.5rem 1rem 2.2rem;
-    background:rgba(255,255,255,.72)
+    background:rgba(255,255,255,.5);
+    backdrop-filter:blur(8px)
   }
   #wk-center::before,
   #wk-center::after{
@@ -3417,19 +3424,36 @@ footer span{
     width:100%;
     margin:0;
     padding:0;
-    gap:1rem;
+    display:flex;
+    flex-direction:row;
+    gap:.85rem;
+    overflow-x:auto;
+    overflow-y:hidden;
+    scroll-snap-type:x mandatory;
+    -webkit-overflow-scrolling:touch;
     transform:none!important;
     transition:none!important
   }
+  #wk-img-strip::-webkit-scrollbar{
+    display:none
+  }
   .wk-slide{
-    width:100%;
+    flex:0 0 min(82vw,360px);
+    width:min(82vw,360px);
     aspect-ratio:4/3;
+    scroll-snap-align:center;
     opacity:1;
     transform:none!important;
     filter:none;
     border:1px solid rgba(13,13,13,.18);
     background-color:rgba(255,255,255,.7)!important;
     box-shadow:none!important
+  }
+  .wk-slide,
+  .wk-slide.wk-active,
+  .wk-slide.wk-adj{
+    opacity:1!important;
+    filter:none!important
   }
   .wk-slide img{
     padding:.45rem
@@ -3465,12 +3489,22 @@ footer span{
   }
 
   #project-page{
-    height:100svh
+    height:100svh;
+    background:#fff
   }
   #project-page::before{
+    display:block;
     inset:0;
-    filter:blur(18px);
-    opacity:.3
+    background-image:var(--pd-active-bg);
+    background-position:center;
+    background-size:cover;
+    filter:blur(24px) saturate(1.05);
+    opacity:.52;
+    transform:scale(1.04)
+  }
+  #project-page::after{
+    display:block;
+    background:rgba(255,255,255,.6)
   }
   .pd-nav{
     position:sticky;
@@ -3525,7 +3559,7 @@ footer span{
   }
   .pd-image-item img,
   .pd-image-item video{
-    max-height:none
+    max-height:78svh
   }
   .pd-image-caption{
     flex-direction:column;
@@ -3561,10 +3595,11 @@ footer span{
     font-size:.62rem
   }
   .pi-grid{
-    display:flex;
-    flex-direction:column;
-    flex-wrap:nowrap;
-    gap:1.25rem;
+    display:grid;
+    grid-template-columns:repeat(2,minmax(0,1fr));
+    gap:1rem;
+    height:auto!important;
+    min-height:0!important;
     margin-top:2rem
   }
   .pi-card,
@@ -3572,7 +3607,7 @@ footer span{
   .pi-card.pi-wide,
   .pi-card.pi-tall,
   .pi-card:nth-child(n){
-    flex:0 0 auto;
+    flex:initial;
     width:100%;
     transform:none!important;
     gap:.55rem
@@ -3582,19 +3617,25 @@ footer span{
   .pi-card:nth-child(7) img{
     width:100%;
     height:auto;
-    max-height:none;
+    max-height:42svh;
     object-fit:contain
   }
   .pi-meta span:first-child{
-    font-size:clamp(1.35rem,8vw,2.25rem)
+    font-size:clamp(1rem,5.8vw,1.55rem)
   }
 
   #about{
     min-height:100svh;
+    height:auto;
+    overflow:visible;
     grid-template-columns:1fr;
     grid-template-rows:auto auto auto;
     gap:1.4rem;
     padding:2rem 1rem 2.6rem
+  }
+  .hero-bg,
+  .about-bg{
+    transform:none!important
   }
   .about-kicker{
     align-items:flex-start;
@@ -3621,5 +3662,138 @@ footer span{
     padding:1.2rem 1rem max(1.2rem,env(safe-area-inset-bottom));
     flex-direction:column;
     gap:.45rem
+  }
+}
+
+/* 2026-06-09 project-detail polish: clear blur, clean media, reliable titles. */
+#works::after,
+#project-page::after{
+  display:none!important
+}
+#wk-left,
+#wk-center{
+  background:transparent!important;
+  backdrop-filter:none!important
+}
+.wk-slide{
+  border:0!important;
+  background:transparent!important;
+  background-color:transparent!important;
+  background-image:none!important
+}
+.wk-slide img{
+  background:transparent!important
+}
+#project-page{
+  background:#050505;
+  color:#0d0d0d
+}
+#project-page::before{
+  display:block!important;
+  background-image:var(--pd-active-bg);
+  background-position:center;
+  background-size:cover;
+  filter:blur(30px) saturate(1.04) contrast(.98);
+  opacity:1;
+  transform:scale(1.04)
+}
+.pd-image-item,
+.pd-image-item img,
+.pd-image-item video{
+  border:0!important;
+  outline:0!important;
+  box-shadow:none!important;
+  background:transparent!important
+}
+#pd-title,
+#pd-title.pd-title-no-break,
+#pd-title.pd-title-compact{
+  max-width:min(100%,1100px);
+  white-space:normal!important;
+  overflow-wrap:normal!important;
+  word-break:normal!important;
+  hyphens:none;
+  text-wrap:balance;
+  font-size:clamp(2.8rem,7.4vw,8.6rem);
+  line-height:.86
+}
+.pd-back{
+  position:relative;
+  z-index:2;
+  display:flex;
+  justify-content:center;
+  padding:clamp(1rem,2vw,2rem) clamp(1rem,2vw,2.5rem) clamp(3rem,5vw,5rem)
+}
+.pd-back-btn{
+  min-height:46px;
+  border:1px solid currentColor;
+  background:transparent;
+  color:#0d0d0d;
+  font-family:'Space Mono',monospace;
+  font-size:.68rem;
+  letter-spacing:.14em;
+  text-transform:uppercase;
+  padding:.85rem 1.2rem;
+  cursor:none
+}
+.pd-back-btn:hover{
+  background:#0d0d0d;
+  color:#fff
+}
+
+@media(max-width:820px){
+  #works::before{
+    opacity:.82;
+    filter:blur(24px) saturate(1.04);
+    transform:scale(1.04)
+  }
+  #project-page{
+    background:#050505
+  }
+  #project-page::before{
+    inset:0;
+    filter:blur(24px) saturate(1.04);
+    opacity:.86;
+    transform:scale(1.04)
+  }
+  #pd-title,
+  #pd-title.pd-title-no-break,
+  #pd-title.pd-title-compact{
+    width:100%;
+    max-width:100%;
+    font-size:clamp(1.85rem,10.4vw,3.45rem);
+    line-height:.92
+  }
+  .pd-back{
+    padding:1rem 1rem max(2.5rem,env(safe-area-inset-bottom))
+  }
+  .pd-back-btn{
+    width:100%;
+    min-height:48px;
+    cursor:pointer
+  }
+}
+
+@media(max-width:820px){
+  body #works #wk-left,
+  body #works #wk-center{
+    background:transparent!important;
+    backdrop-filter:none!important
+  }
+  body #works .wk-slide{
+    border:0!important;
+    background:transparent!important;
+    background-color:transparent!important;
+    background-image:none!important;
+    box-shadow:none!important
+  }
+  body #project-page::after{
+    display:none!important;
+    background:transparent!important
+  }
+  body #project-page::before{
+    display:block!important;
+    opacity:1!important;
+    filter:blur(24px) saturate(1.04)!important
   }
 }
