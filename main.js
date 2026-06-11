@@ -288,6 +288,7 @@ requestAnimationFrame(() => {
   var pdTitle = document.getElementById('pd-title');
   var pdRole = document.getElementById('pd-role');
   var pdYear = document.getElementById('pd-year');
+  var pdDescription = document.getElementById('pd-description');
   var pdNote = document.getElementById('pd-note');
   var pdImages = document.getElementById('pd-images');
   var pdMoreList = document.getElementById('pd-more-list');
@@ -326,11 +327,26 @@ requestAnimationFrame(() => {
     }
   }
 
-  function sizeFrame() {
-    if (isMobile || !slides[0] || !wkFrame) return;
-    var rect = slides[0].getBoundingClientRect();
-    wkFrame.style.width = rect.width + 'px';
-    wkFrame.style.height = rect.height + 'px';
+  function sizeFrame(idx) {
+    if (isMobile || !wkFrame) return;
+
+    var slide = slides[typeof idx === 'number' ? idx : curIdx] || slides[0];
+    if (!slide) return;
+
+    var slideRect = slide.getBoundingClientRect();
+    var img = slide.querySelector('img');
+    var naturalW = img ? img.naturalWidth : 0;
+    var naturalH = img ? img.naturalHeight : 0;
+
+    if (naturalW && naturalH) {
+      var renderedRatio = Math.min(slideRect.width / naturalW, slideRect.height / naturalH);
+      wkFrame.style.width = naturalW * renderedRatio + 'px';
+      wkFrame.style.height = naturalH * renderedRatio + 'px';
+      return;
+    }
+
+    wkFrame.style.width = slideRect.width + 'px';
+    wkFrame.style.height = slideRect.height + 'px';
   }
 
   function measure() {
@@ -341,8 +357,17 @@ requestAnimationFrame(() => {
     rowH = nameRows[0] ? nameRows[0].offsetHeight : 60;
     var styles = getComputedStyle(imgStrip);
     gapPx = parseFloat(styles.rowGap) || parseFloat(styles.gap) || 32;
-    sizeFrame();
+    sizeFrame(curIdx);
   }
+
+  slides.forEach(function (slide, i) {
+    var img = slide.querySelector('img');
+    if (!img) return;
+
+    img.addEventListener('load', function () {
+      if (i === curIdx) sizeFrame(i);
+    });
+  });
 
   function imgStripY(idx) {
     return (centerH - slideH) / 2 - idx * (slideH + gapPx);
@@ -378,6 +403,8 @@ requestAnimationFrame(() => {
     if (bgImg && bgImg.getAttribute('src')) {
       document.documentElement.style.setProperty('--wk-active-bg', 'url("' + bgImg.getAttribute('src') + '")');
     }
+
+    sizeFrame(idx);
   }
 
   var mobileScrollRaf = 0;
@@ -548,7 +575,7 @@ requestAnimationFrame(() => {
       document.body.appendChild(script);
     }
 
-    function noteForProject(d) {
+    function descriptionForProject(d) {
       var title = d.ptitle || 'This project';
       var cat = (d.pcat || 'visual work').toLowerCase();
       if (title === 'MIZE') {
@@ -587,6 +614,10 @@ requestAnimationFrame(() => {
       return title + ' is a selected project from Jully Li’s portfolio, exploring image, story, and visual systems across media.';
     }
 
+    function noteForProject(d) {
+      return '';
+    }
+
     if (!projectPage || !pdImages) return;
 
     var coverImg = slide.querySelector('img');
@@ -600,7 +631,12 @@ requestAnimationFrame(() => {
     }
     if (pdRole) pdRole.innerHTML = (data.pcat || 'Visual Design') + '<br>Art Direction';
     if (pdYear) pdYear.textContent = data.pyear || '';
-    if (pdNote) pdNote.textContent = noteForProject(data);
+    if (pdDescription) pdDescription.textContent = data.pdescription || descriptionForProject(data);
+    if (pdNote) {
+      var noteText = data.pnote || noteForProject(data);
+      pdNote.textContent = noteText;
+      if (pdNote.parentElement) pdNote.parentElement.hidden = !noteText;
+    }
 
     pdImages.innerHTML = '';
     if (pdMoreList) pdMoreList.innerHTML = '';
