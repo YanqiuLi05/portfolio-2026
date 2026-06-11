@@ -149,6 +149,25 @@ body{background:#fff;color:#0d0d0d;font-family:'Space Mono',monospace;cursor:non
   display:block;
   user-select:none
 }
+.hero-tagline{
+  position:absolute;
+  top:calc(38% + clamp(82px,7vw,132px));
+  left:50%;
+  z-index:3;
+  transform:translateX(-50%);
+  margin:0;
+  color:#be0010;
+  font-family:Georgia,'Times New Roman',serif;
+  font-size:clamp(1.1rem,1.7vw,2rem);
+  font-weight:400;
+  line-height:1;
+  letter-spacing:0;
+  text-transform:uppercase;
+  text-align:center;
+  white-space:nowrap;
+  pointer-events:none;
+  user-select:none
+}
 .hero-name{
   position:absolute;
   left:clamp(1.1rem,2.7vw,3.6rem);
@@ -2195,6 +2214,10 @@ footer span{
   #hero{min-height:520px;background-position:center center}
   #tnav{padding:1.2rem 1.25rem;font-size:clamp(1rem,5vw,1.4rem)}
   .hero-logo{top:39%;width:clamp(190px,52vw,285px)}
+  .hero-tagline{
+    top:calc(39% + clamp(60px,16vw,90px));
+    font-size:clamp(1rem,5vw,1.4rem)
+  }
   .hero-name{
     left:1rem;
     right:1rem;
@@ -3338,6 +3361,10 @@ footer span{
   .hero-logo{
     top:42%;
     width:clamp(180px,62vw,280px)
+  }
+  .hero-tagline{
+    top:calc(42% + clamp(58px,18vw,88px));
+    font-size:clamp(1.05rem,5.4vw,1.45rem)
   }
   .hero-name{
     left:.7rem;
