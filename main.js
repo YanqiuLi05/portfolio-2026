@@ -226,7 +226,7 @@
       configureRail($('.category-orbit'),projects.filter(p=>p.categories.includes(key)).sort((a,b)=>(b.id==='kocep-logo')-(a.id==='kocep-logo')));
       document.title=categories[key]+' — Jully Li';
     }else{
-      home.hidden=false;categoryView.hidden=true;projectView.hidden=true;document.title='Jully Li — Artist & Designer';
+      home.hidden=false;categoryView.hidden=true;projectView.hidden=true;document.title='Jully Li ｜ Designer & Creative Technologist';
     }
     const wasProject=route.startsWith('#project/');if(wasProject)previousProject=route;route=next;
     nav.classList.toggle('is-sticky',isProject||isCategory);
