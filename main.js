@@ -63,7 +63,7 @@
   const list = $('#featured-list'), stage = $('#featured-stage');
   let featuredIndex = -1, featureStep = 600, featureHold = 180;
   list.innerHTML = featured.map((p, i) => `<button class="featured-row" data-feature="${i}" aria-label="Select ${escape(p.title)}"><strong>${escape(p.title)}</strong><small>${escape(p.type === 'GAME' ? 'Narrative Game' : p.type.toLowerCase())}</small></button>`).join('');
-  stage.innerHTML = featured.map((p,i)=>`<a class="featured-image" data-slide="${i}" href="#project/${p.id}" aria-label="View ${escape(p.title)}" tabindex="-1"><img src="${escape(p.cover)}" alt="${escape(p.alt)}" decoding="async" /><span class="image-open" aria-hidden="true">View project ↗</span></a>`).join('');
+  stage.innerHTML = featured.map((p,i)=>`<a class="featured-image" data-slide="${i}" href="#project/${p.id}" aria-label="View ${escape(p.title)}" tabindex="-1"><img src="${escape(p.cover)}" alt="${escape(p.alt)}" decoding="async" /><span class="image-open" aria-hidden="true">View project <svg class="ui-arrow" aria-hidden="true" viewBox="0 0 16 16" fill="none" style="rotate:-45deg"><path d="M3 8h10M8 3l5 5-5 5" stroke="currentColor" stroke-width="1.3"/></svg></span></a>`).join('');
   const rows = [...list.children], featureSlides = [...stage.children];
   function sizeFeaturedImages(){
     if(home.hidden)return;
@@ -199,9 +199,9 @@
     $('#project-description').textContent=p.description;$('#project-note').textContent=p.note;
     $('#project-back').href=returnRoute;$('.project-end-back').href=returnRoute;
     const embed=p.embed||(p.id==='the-last-witness'?'https://xiao-ooo.github.io/Final_LAMIMI/':'');
-    $('#project-media').innerHTML=(embed?`<section class="interactive-project" aria-label="Explore ${escape(p.title)}"><iframe src="${escape(embed)}" title="${escape(p.title)} — live website" allow="fullscreen" allowfullscreen></iframe><a href="${escape(embed)}" target="_blank" rel="noopener noreferrer">Open ${escape(p.title)} in a new tab ↗</a></section>`:'')+p.images.map((src,i)=>{
+    $('#project-media').innerHTML=(embed?`<section class="interactive-project" aria-label="Explore ${escape(p.title)}"><iframe src="${escape(embed)}" title="${escape(p.title)} — live website" allow="fullscreen" allowfullscreen></iframe><a href="${escape(embed)}" target="_blank" rel="noopener noreferrer">Open ${escape(p.title)} in a new tab <svg class="ui-arrow" aria-hidden="true" viewBox="0 0 16 16" fill="none" style="rotate:-45deg"><path d="M3 8h10M8 3l5 5-5 5" stroke="currentColor" stroke-width="1.3"/></svg></a></section>`:'')+p.images.map((src,i)=>{
       const label=p.labels[i]||p.title;
-      if(src.startsWith('instagram:'))return `<a class="reel-link" href="${escape(src.slice(10))}" target="_blank" rel="noopener noreferrer">Watch ${escape(p.title)} on Instagram ↗</a>`;
+      if(src.startsWith('instagram:'))return `<a class="reel-link" href="${escape(src.slice(10))}" target="_blank" rel="noopener noreferrer">Watch ${escape(p.title)} on Instagram <svg class="ui-arrow" aria-hidden="true" viewBox="0 0 16 16" fill="none" style="rotate:-45deg"><path d="M3 8h10M8 3l5 5-5 5" stroke="currentColor" stroke-width="1.3"/></svg></a>`;
       const media=/\.(mp4|mov|webm)$/i.test(src)?`<video src="${escape(src)}" controls playsinline preload="metadata"></video>`:`<img src="${escape(src)}" alt="${escape(label)}" loading="lazy" decoding="async" />`;
       return `<figure class="project-media-item reveal-image">${media}<figcaption>${String(i+1).padStart(2,'0')} — ${escape(label)}</figcaption></figure>`;
     }).join('');
