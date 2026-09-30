@@ -192,7 +192,7 @@
   }
   // The design shows illustration, poster, and stop motion first.
   const otherOrder=[14,11,13,8,9,10,12];
-  configureRail($('#other-works'),[projects.find(p=>p.id==='kocep-logo'),...otherOrder.map(i=>projects[i])]);
+  configureRail($('#other-works'),[projects.find(p=>p.id==='kocep-logo'),...otherOrder.map(i=>projects[i]),...['dairy-cow','doggie-playground','inbar-solomon-quartet'].map(id=>projects.find(p=>p.id===id))]);
 
   function renderProject(p){
     $('#project-title').textContent=p.title;$('#project-type').textContent=p.type;$('#project-year').textContent=p.year;

@@ -128,7 +128,7 @@ window.portfolioProjects = [
     "categories": [
       "visual"
     ],
-    "featured": true
+    "featured": false
   },
   {
     "id": "inbar-solomon-live",
@@ -202,7 +202,7 @@ window.portfolioProjects = [
     "categories": [
       "technology"
     ],
-    "featured": true
+    "featured": false
   },
   {
     "id": "dairy-cow",
@@ -234,7 +234,7 @@ window.portfolioProjects = [
     "categories": [
       "technology"
     ],
-    "featured": true
+    "featured": false
   },
   {
     "id": "jazz-series-photography",
