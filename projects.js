@@ -501,5 +501,27 @@ window.portfolioProjects = [
       "visual"
     ],
     "featured": true
+  },
+  {
+    "id": "10-beans-brand",
+    "title": "10&BEANS",
+    "type": "BRAND DESIGN",
+    "year": "",
+    "description": "A warm, cozy brand identity for 10&BEANS, a café in Yunnan, China. Inspired by slow days, handmade objects, and the comfort of a familiar place, the identity invites people to pause and feel at home.",
+    "note": "The café’s three dogs are part of its everyday life and became part of the visual identity too. Hand-drawn characters, earthy colors, and gently imperfect forms express a slow, handmade, sincere spirit.",
+    "cover": "assets/works/10-and-beans-brand/01-cover.png",
+    "alt": "10&BEANS café brand identity — hand-drawn dog logo over a warm café tabletop",
+    "images": [
+      "assets/works/10-and-beans-brand/03-brand-identity-updated.png"
+    ],
+    "labels": [
+      "10&BEANS — mood, color palette, logo, and illustrations inspired by the café’s three dogs"
+    ],
+    "categories": [
+      "brand",
+      "visual"
+    ],
+    "featured": true,
+    "fullHeight": true
   }
 ];

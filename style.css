@@ -188,3 +188,5 @@ body,.featured-page,.orbit-sticky,#contact,.category-contact{background-image:ur
  .image-open{font-size:10px;line-height:1.2;padding:4px 6px;bottom:7px;right:7px;white-space:nowrap}
  .image-open .ui-arrow{display:none}
 }
+
+.project-media-item.full-height-artwork img{max-height:none;height:auto}

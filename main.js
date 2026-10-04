@@ -57,7 +57,7 @@
   }
 
   /* A complete scroll chapter: each project has its own stable reading interval. */
-  const featuredFirst = ['kocep','the-last-witness','10-beans-home','kocep-logo','dizengoff-center','fashion-illustrations'];
+  const featuredFirst = ['10-beans-brand','kocep','the-last-witness','10-beans-home','kocep-logo','dizengoff-center','fashion-illustrations'];
   const featured = [...featuredFirst.map(id=>projects.find(p=>p.id===id)), ...projects.filter(p=>p.featured&&!featuredFirst.includes(p.id))];
   const featureSection = $('#works');
   const list = $('#featured-list'), stage = $('#featured-stage');
@@ -203,7 +203,7 @@
       const label=p.labels[i]||p.title;
       if(src.startsWith('instagram:'))return `<a class="reel-link" href="${escape(src.slice(10))}" target="_blank" rel="noopener noreferrer">Watch ${escape(p.title)} on Instagram <svg class="ui-arrow" aria-hidden="true" viewBox="0 0 16 16" fill="none" style="rotate:-45deg"><path d="M3 8h10M8 3l5 5-5 5" stroke="currentColor" stroke-width="1.3"/></svg></a>`;
       const media=/\.(mp4|mov|webm)$/i.test(src)?`<video src="${escape(src)}" controls playsinline preload="metadata"></video>`:`<img src="${escape(src)}" alt="${escape(label)}" loading="lazy" decoding="async" />`;
-      return `<figure class="project-media-item reveal-image">${media}<figcaption>${String(i+1).padStart(2,'0')} — ${escape(label)}</figcaption></figure>`;
+      return `<figure class="project-media-item reveal-image${p.fullHeight?' full-height-artwork':''}">${media}<figcaption>${String(i+1).padStart(2,'0')} — ${escape(label)}</figcaption></figure>`;
     }).join('');
     observeReveals(projectView);
   }
