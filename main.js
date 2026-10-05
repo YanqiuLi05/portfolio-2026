@@ -223,7 +223,14 @@
       home.hidden=true;projectView.hidden=true;categoryView.hidden=false;
       $('#category-title').textContent=categories[key];
       $('.category-nav').innerHTML=Object.entries(categories).map(([k,label])=>`<a href="#category/${k}" ${k===key?'aria-current="page"':''}>${label}</a>`).join('');
-      configureRail($('.category-orbit'),projects.filter(p=>p.categories.includes(key)).sort((a,b)=>(b.id==='kocep-logo')-(a.id==='kocep-logo')));
+      const categoryProjects=projects.filter(p=>p.categories.includes(key)).sort((a,b)=>(b.id==='kocep-logo')-(a.id==='kocep-logo'));
+      const beansIndex=categoryProjects.findIndex(p=>p.id==='10-beans-brand');
+      if(key==='brand'&&beansIndex>0)categoryProjects.unshift(categoryProjects.splice(beansIndex,1)[0]);
+      if(key==='visual'){
+        const logoIndex=categoryProjects.findIndex(p=>p.id==='kocep-logo');
+        if(beansIndex>=0&&logoIndex>=0)[categoryProjects[beansIndex],categoryProjects[logoIndex]]=[categoryProjects[logoIndex],categoryProjects[beansIndex]];
+      }
+      configureRail($('.category-orbit'),categoryProjects);
       document.title=categories[key]+' — Jully Li';
     }else{
       home.hidden=false;categoryView.hidden=true;projectView.hidden=true;document.title='Jully Li ｜ Designer & Creative Technologist';
